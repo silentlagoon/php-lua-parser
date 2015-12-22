@@ -3,7 +3,7 @@ ini_set('error_reporting', E_ALL);
 ini_set('display_errors', 'On');
 require_once(dirname(__FILE__) . '/Parser.php');
 
-$parser = new WLP_Parser('test.lua');
+$parser = new Parser('test.lua');
 $data = $parser->toArray();
 
 foreach($data["WRATH_VOTE"] as $key=>$value) {

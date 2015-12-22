@@ -71,7 +71,7 @@ class Parser
             } else {
               $i++;
               if (strlen($this->arrayId(trim($strs[0]))) > 0 && strlen($strs[1]) > 0) {
-                $data[$this->arrayId(trim($strs[0]))] = $this->trimValue($strs[1]);
+                $data[$this->arrayId(trim($strs[0]))] = $this->replaceSpecialChars($strs[1]);
               }
             } 
           }
@@ -80,46 +80,19 @@ class Parser
         return $data;
     }
 
-    protected function trimValue($string)
-    {
-        $string = trim($string);
+    protected function replaceSpecialChars($str) {
         $find = array(
             '/\["/',
             '/\"]/',
             '/,/',
             '/"/'
         );
-        $string = preg_replace($find, '', $string);
-
-        if ($string =='false') {
-            $string = false;
-        }
-        if ($string =='true') {
-            $string = true;
-        }
-
-        return $string;
+        return preg_replace($find, '', trim($str));
     }
 
     protected function arrayId($string)
     {
         $id = sscanf($string, "[%d]");
-        if (strlen($id[0])>0) {
-          return $id[0];
-        } else {
-          if (substr($string,0,1)=="[") {
-            $string  = substr($string,1,strlen($string));
-          }
-          if (substr($string,0,1)=="\"") {
-            $string  = substr($string,1,strlen($string));
-          }
-          if (substr($string,-1,1)=="]") {
-            $string  = substr($string,0,strlen($string)-1);
-          }
-          if (substr($string,-1,1)=="\"") {
-            $string  = substr($string,0,strlen($string)-1);
-          }
-          return $string;
-        } 
+        return (strlen($id[0]) > 0) ? $id[0] : $this->replaceSpecialChars($string);
     }
 }

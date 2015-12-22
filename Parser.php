@@ -83,22 +83,21 @@ class Parser
     protected function trimValue($string)
     {
         $string = trim($string);
-        if (substr($string,0,1)=="\"") {
-            $string = trim(substr($string,1,strlen($string)));
-        }
-        if (substr($string,-1,1)==",") {
-            $string = trim(substr($string,0,strlen($string)-1));
-        }
-        if (substr($string,-1,1)=="\"") {
-            $string = trim(substr($string,0,strlen($string)-1));
-        }
+        $find = array(
+            '/\["/',
+            '/\"]/',
+            '/,/',
+            '/"/'
+        );
+        $string = preg_replace($find, '', $string);
+
         if ($string =='false') {
             $string = false;
         }
         if ($string =='true') {
             $string = true;
         }
-        
+
         return $string;
     }
 

@@ -165,9 +165,10 @@ class WLP_Parser implements arrayaccess
                 $stop = true;
                 break;
             }
-            
-            $strs = explode("=", utf8_decode($this->lua[$i]));
-            
+
+            //$strs = explode("=", utf8_decode($this->lua[$i]));
+            $strs = explode("=", $this->lua[$i]);
+
             if (isset($strs[1]) && trim($strs[1]) == "{") {
               $i++;
               $data[$this->arrayId(trim($strs[0]))] = $this->parser($i);

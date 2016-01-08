@@ -1,5 +1,6 @@
 <?php
 
+namespace PhpLuaParser;
 class Parser
 {
     protected $lua = array();
